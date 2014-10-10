@@ -7,7 +7,7 @@ package opencv
 //#include "opencv.h"
 //#cgo linux  pkg-config: opencv
 //#cgo darwin pkg-config: opencv
-//#cgo windows LDFLAGS: -lopencv_core242.dll -lopencv_imgproc242.dll -lopencv_photo242.dll -lopencv_highgui242.dll -lstdc++
+//#cgo windows LDFLAGS: -lopencv_core248 -lopencv_imgproc248 -lopencv_photo248 -lopencv_highgui248 -lstdc++
 import "C"
 import (
 	//"errors"

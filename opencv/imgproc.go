@@ -7,13 +7,15 @@ package opencv
 //#include "opencv.h"
 //#cgo linux  pkg-config: opencv
 //#cgo darwin pkg-config: opencv
-//#cgo windows LDFLAGS: -lopencv_core242.dll -lopencv_imgproc242.dll -lopencv_photo242.dll -lopencv_highgui242.dll -lstdc++
+//#cgo windows LDFLAGS: -lopencv_core248 -lopencv_imgproc248 -lopencv_photo248 -lopencv_highgui248 -lstdc++
 import "C"
 import (
 	//"errors"
 	//"log"
 	"unsafe"
 )
+
+const INTER_LINEAR = C.CV_INTER_LINEAR
 
 func Resize(src *IplImage, width, height, interpolation int) *IplImage {
 	if width == 0 && height == 0 {

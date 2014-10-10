@@ -7,10 +7,10 @@ package opencv
 //#include "opencv.h"
 //#cgo linux  pkg-config: opencv
 //#cgo darwin pkg-config: opencv
-//#cgo windows LDFLAGS: -lopencv_core242.dll -lopencv_imgproc242.dll -lopencv_photo242.dll -lopencv_highgui242.dll -lstdc++
+//#cgo windows LDFLAGS: -lopencv_core248 -lopencv_imgproc248 -lopencv_photo248 -lopencv_highgui248 -lstdc++
 import "C"
 import (
-	"unsafe"
+// "unsafe"
 )
 
 /****************************************************************************************\
@@ -51,35 +51,35 @@ import (
 /****************************************************************************************\
 *                                  Face eyes&mouth tracking                              *
 \****************************************************************************************/
-type HaarCascade struct {
-	cascade *C.CvHaarClassifierCascade
-}
+// type HaarCascade struct {
+// 	cascade *C.CvHaarClassifierCascade
+// }
 
-func LoadHaarClassifierCascade(haar string) *HaarCascade {
-	haarCascade := new(HaarCascade)
-	haarCascade.cascade = C.cvLoadHaarClassifierCascade(C.CString(haar), C.cvSize(1, 1))
-	return haarCascade
-}
+// func LoadHaarClassifierCascade(haar string) *HaarCascade {
+// 	haarCascade := new(HaarCascade)
+// 	haarCascade.cascade = C.cvLoadHaarClassifierCascade(C.CString(haar), C.cvSize(1, 1))
+// 	return haarCascade
+// }
 
-func (this *HaarCascade) DetectObjects(image *IplImage) []*Rect {
-	storage := C.cvCreateMemStorage(0)
-	seq := C.cvHaarDetectObjects(unsafe.Pointer(image), this.cascade, storage, 1.1, 3, C.CV_HAAR_DO_CANNY_PRUNING, C.cvSize(0, 0), C.cvSize(0, 0))
-	var faces []*Rect
-	for i := 0; i < (int)(seq.total); i++ {
-		rect := (*Rect)((*_Ctype_CvRect)(unsafe.Pointer(C.cvGetSeqElem(seq, C.int(i)))))
-		faces = append(faces, rect)
-	}
-	
-	storage_c := (*C.CvMemStorage)(storage)
-	C.cvReleaseMemStorage(&storage_c)
-	
-	return faces
-}
+// func (this *HaarCascade) DetectObjects(image *IplImage) []*Rect {
+// 	storage := C.cvCreateMemStorage(0)
+// 	seq := C.cvHaarDetectObjects(unsafe.Pointer(image), this.cascade, storage, 1.1, 3, C.CV_HAAR_DO_CANNY_PRUNING, C.cvSize(0, 0), C.cvSize(0, 0))
+// 	var faces []*Rect
+// 	for i := 0; i < (int)(seq.total); i++ {
+// 		rect := (*Rect)((*_Ctype_CvRect)(unsafe.Pointer(C.cvGetSeqElem(seq, C.int(i)))))
+// 		faces = append(faces, rect)
+// 	}
 
-func (this *HaarCascade) Release() {
-	cascade_c := (*C.CvHaarClassifierCascade)(this.cascade)
-	C.cvReleaseHaarClassifierCascade(&cascade_c)
-}
+// 	storage_c := (*C.CvMemStorage)(storage)
+// 	C.cvReleaseMemStorage(&storage_c)
+
+// 	return faces
+// }
+
+// func (this *HaarCascade) Release() {
+// 	cascade_c := (*C.CvHaarClassifierCascade)(this.cascade)
+// 	C.cvReleaseHaarClassifierCascade(&cascade_c)
+// }
 
 /****************************************************************************************\
 *                                         3D Tracker                                     *
