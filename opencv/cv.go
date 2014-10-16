@@ -117,9 +117,20 @@ const (
 // 	return result
 // }
 
+type Polygon struct {
+	Vertices []Point
+}
+
 type ContourTree struct {
-	Data [][]Point
-	Next []*ContourTree
+	Polys []Polygon
+	Next  []*ContourTree
+}
+
+func (p *Polygon) Draw(src *IplImage, s Scalar, thickness int) {
+	vs := p.Vertices
+	for i := range vs {
+		Line(src, vs[i], vs[(i+1)%len(vs)], s, thickness, 8, 0)
+	}
 }
 
 func FindContours(img *IplImage, mode, method int, e float64) *ContourTree {
@@ -148,7 +159,7 @@ func MakeTree(seq *C.CvSeq) *ContourTree {
 	for ; seq != nil; seq = (*C.CvSeq)(seq.h_next) {
 		ar := make([]Point, seq.total)
 		C.cvCvtSeqToArray(seq, unsafe.Pointer(&ar[0]), C.cvSlice(0, 0x3fffffff))
-		t.Data = append(t.Data, ar)
+		t.Polys = append(t.Polys, Polygon{ar})
 		t.Next = append(t.Next, MakeTree((*C.CvSeq)(seq.v_next)))
 	}
 	return t
